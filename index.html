@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Still Grumpy? Cute Peace Party 🐾</title>
+
+  <!-- Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Comic Sans MS", cursive;
+    }
+
+    body {
+      height: 100vh;
+      overflow: hidden;
+      background: radial-gradient(circle at top left, #fff6f7, #ffd6e7 35%, #ffeccf 75%, #ffd2f5 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    body::before {
+      content: "✨✨";
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 2rem;
+      opacity: 0.4;
+      animation: floatStars 4s ease-in-out infinite;
+    }
+
+    @keyframes floatStars {
+      0%, 100% { transform: translateY(0); opacity: 0.4; }
+      50% { transform: translateY(-10px); opacity: 0.8; }
+    }
+
+    .container {
+      text-align: center;
+      background: rgba(255,255,255,0.88);
+      padding: 42px;
+      border-radius: 36px;
+      box-shadow: 0 16px 40px rgba(255, 135, 195, 0.18);
+      backdrop-filter: blur(14px);
+      position: relative;
+      width: 92%;
+      max-width: 520px;
+      border: 2px dashed rgba(255, 111, 170, 0.35);
+    }
+
+    h1 {
+      font-size: 2.4rem;
+      color: #ff4f81;
+      margin-bottom: 12px;
+      text-shadow: 0 0 8px rgba(255, 79, 129, 0.3);
+    }
+
+    p {
+      color: #6a4a6e;
+      margin-bottom: 30px;
+      font-size: 1.15rem;
+      line-height: 1.6;
+    }
+
+    .buttons {
+      position: relative;
+      height: 210px;
+    }
+
+    button {
+      border: none;
+      padding: 16px 32px;
+      font-size: 1.1rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: absolute;
+      box-shadow: 0 12px 25px rgba(255, 118, 152, 0.18);
+    }
+
+    #noBtn {
+      background: linear-gradient(135deg, #7ee081, #6fd4ff);
+      color: white;
+      left: 24%;
+      top: 100px;
+    }
+
+    #yesBtn {
+      background: linear-gradient(135deg, #ff8aca, #ff5a84);
+      color: white;
+      left: 55%;
+      top: 100px;
+    }
+
+    button:hover {
+      transform: scale(1.08);
+    }
+
+    .popup {
+      display: none;
+      margin-top: 25px;
+      animation: pop 0.45s ease;
+      border-top: 1px dotted rgba(255, 111, 170, 0.35);
+      padding-top: 20px;
+    }
+
+    .popup h2 {
+      color: #ff4f81;
+      margin-bottom: 10px;
+      font-size: 2rem;
+    }
+
+    .popup p {
+      font-size: 1.18rem;
+      color: #6a4a6e;
+      line-height: 1.7;
+    }
+
+    @keyframes pop {
+      0% {
+        transform: scale(0.5);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .cat {
+      font-size: 5rem;
+      margin-bottom: 10px;
+      animation: bounce 1s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="cat">😽</div>
+
+    <h1>Are you still grumpy-wumpy?</h1>
+    <p>Did my tiny heart accidentally steal your last cookie? Tell me the truth with a cute paw vote.</p>
+
+    <div class="buttons">
+      <button id="noBtn">Nope, I'm cuddly 💖</button>
+      <button id="yesBtn">Uh-oh, still steamed 🥵</button>
+      <div style="position:absolute; left:50%; top: 170px; transform: translateX(-50%); color:#b46a95; font-size:0.95rem;">Try to catch the spicy button if you can!</div>
+    </div>
+
+    <div class="popup" id="popup">
+      <h2>OMG YOU'RE THE BEST! 🎉</h2>
+      <p>
+        You forgave the cutest cinnamon cloud ever. <br><br>
+        Prepare for extra hugs, silly dances, and a secret happy snack. 💕
+      </p>
+    </div>
+  </div>
+
+  <script>
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const popup = document.getElementById("popup");
+
+    // Make YES button run away
+    yesBtn.addEventListener("mouseover", () => {
+      const container = document.querySelector(".buttons");
+
+      const maxX = container.clientWidth - yesBtn.clientWidth;
+      const maxY = container.clientHeight - yesBtn.clientHeight;
+
+      const randomX = Math.random() * maxX;
+      const randomY = Math.random() * maxY;
+
+      yesBtn.style.left = `${randomX}px`;
+      yesBtn.style.top = `${randomY}px`;
+    });
+
+    // NO button clicked
+    noBtn.addEventListener("click", () => {
+      popup.style.display = "block";
+
+      // Confetti spam
+      confetti({
+        particleCount: 200,
+        spread: 120,
+        origin: { y: 0.6 }
+      });
+
+      // Extra confetti burst
+      setTimeout(() => {
+        confetti({
+          particleCount: 150,
+          spread: 180
+        });
+      }, 400);
+    });
+  </script>
+
+</body>
+</html>
